@@ -5,15 +5,15 @@ This module defines the specific tasks for each agent and provides
 the crew creation and management functionality.
 """
 
-from typing import List
+from typing import Any
 
 from crewai import Crew, Task
 from crewai.process import Process
 
 from repospector_ai.agents import (
-    create_repo_analyst,
-    create_documentation_specialist,
     create_chief_reviewer,
+    create_documentation_specialist,
+    create_repo_analyst,
 )
 from repospector_ai.core.config import settings
 from repospector_ai.core.logger import get_logger
@@ -21,13 +21,13 @@ from repospector_ai.core.logger import get_logger
 logger = get_logger(__name__)
 
 
-def create_structure_analysis_task(repo_analyst) -> Task:
+def create_structure_analysis_task(repo_analyst: Any) -> Task:
     """
     Create the repository structure analysis task.
-    
+
     Args:
         repo_analyst: The RepoAnalyst agent
-        
+
     Returns:
         Configured Task for structure analysis
     """
@@ -60,14 +60,16 @@ def create_structure_analysis_task(repo_analyst) -> Task:
     )
 
 
-def create_documentation_review_task(documentation_specialist, structure_task) -> Task:
+def create_documentation_review_task(
+    documentation_specialist: Any, structure_task: Any
+) -> Task:
     """
     Create the documentation review task.
-    
+
     Args:
         documentation_specialist: The DocumentationSpecialist agent
         structure_task: The structure analysis task (for context)
-        
+
     Returns:
         Configured Task for documentation review
     """
@@ -105,15 +107,17 @@ def create_documentation_review_task(documentation_specialist, structure_task) -
     )
 
 
-def create_final_report_task(chief_reviewer, structure_task, documentation_task) -> Task:
+def create_final_report_task(
+    chief_reviewer: Any, structure_task: Any, documentation_task: Any
+) -> Task:
     """
     Create the final comprehensive report task.
-    
+
     Args:
         chief_reviewer: The ChiefReviewer agent
         structure_task: The structure analysis task (for context)
         documentation_task: The documentation review task (for context)
-        
+
     Returns:
         Configured Task for final report generation
     """
@@ -158,20 +162,20 @@ def create_final_report_task(chief_reviewer, structure_task, documentation_task)
 def create_crew(github_url: str) -> Crew:
     """
     Create and configure the repository analysis crew.
-    
+
     Args:
         github_url: The GitHub repository URL to analyze
-        
+
     Returns:
         Configured Crew ready for execution
     """
     logger.info(f"Creating crew for repository analysis: {github_url}")
-    
+
     # Create agents
     repo_analyst = create_repo_analyst()
     documentation_specialist = create_documentation_specialist()
     chief_reviewer = create_chief_reviewer()
-    
+
     # Create tasks
     structure_task = create_structure_analysis_task(repo_analyst)
     documentation_task = create_documentation_review_task(
@@ -180,7 +184,7 @@ def create_crew(github_url: str) -> Crew:
     final_report_task = create_final_report_task(
         chief_reviewer, structure_task, documentation_task
     )
-    
+
     # Configure crew
     crew = Crew(
         agents=[repo_analyst, documentation_specialist, chief_reviewer],
@@ -193,18 +197,18 @@ def create_crew(github_url: str) -> Crew:
             "config": {
                 "model": "text-embedding-3-small",
                 "api_key": settings.openai_api_key,
-            }
-        }
+            },
+        },
     )
-    
+
     logger.info("Repository analysis crew created successfully")
     return crew
 
 
-def get_crew_tasks() -> List[str]:
+def get_crew_tasks() -> list[str]:
     """
     Get a list of task names for monitoring and debugging.
-    
+
     Returns:
         List of task names in execution order
     """
