@@ -5,8 +5,6 @@ This module provides centralized configuration management using Pydantic Setting
 for loading environment variables and default values.
 """
 
-from typing import Optional
-
 from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
@@ -22,13 +20,13 @@ class Settings(BaseSettings):
     )
 
     # API Keys
-    openai_api_key: Optional[str] = Field(
+    openai_api_key: str | None = Field(
         default=None,
         description="OpenAI API key for LLM access",
         min_length=1,
     )
-    
-    serpapi_api_key: Optional[str] = Field(
+
+    serpapi_api_key: str | None = Field(
         default=None,
         description="SerpAPI key for web search functionality",
     )
@@ -38,7 +36,7 @@ class Settings(BaseSettings):
         default="gpt-4",
         description="OpenAI model to use for the agents",
     )
-    
+
     llm_temperature: float = Field(
         default=0.1,
         ge=0.0,
@@ -51,10 +49,15 @@ class Settings(BaseSettings):
         default="RepoSpector AI",
         description="Application name",
     )
-    
+
     app_version: str = Field(
         default="0.1.0",
         description="Application version",
+    )
+
+    environment: str = Field(
+        default="production",
+        description="Application environment (development, staging, production)",
     )
 
     # Logging Configuration
@@ -62,7 +65,7 @@ class Settings(BaseSettings):
         default="INFO",
         description="Logging level (DEBUG, INFO, WARNING, ERROR, CRITICAL)",
     )
-    
+
     log_format: str = Field(
         default="json",
         description="Log format: 'json' or 'text'",
@@ -74,7 +77,7 @@ class Settings(BaseSettings):
         gt=0,
         description="Maximum file size to analyze in KB",
     )
-    
+
     temp_dir_prefix: str = Field(
         default="repospector_",
         description="Prefix for temporary directories",
