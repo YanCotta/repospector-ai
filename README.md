@@ -1,10 +1,20 @@
 # 🔍 RepoSpector AI
 
-[![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)
+[![Python 3.12+](https://img.shields.io/badge/python-3.12+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
+[![CI Pipeline](https://github.com/YanCotta/repospector-ai/workflows/CI%20Pipeline/badge.svg)](https://github.com/YanCotta/repospector-ai/actions)
 
 An AI-powered multi-agent system built with CrewAI that automatically reviews GitHub repositories. Get expert-level feedback on your code structure, documentation, and best practices.
+
+## 🎯 Project Status
+
+- ✅ **Production Ready**: Full CI/CD pipeline with automated testing
+- ✅ **Type Safe**: Complete MyPy type checking with Python 3.12+ support
+- ✅ **Code Quality**: Automated formatting with Black and linting with Ruff
+- ✅ **Well Tested**: Comprehensive test suite with coverage reporting
+- ✅ **Modern Standards**: Pre-commit hooks and professional development workflow
 
 ## ✨ Features
 
@@ -32,7 +42,8 @@ An AI-powered multi-agent system built with CrewAI that automatically reviews Gi
 ## 🚀 Quick Start
 
 ### Prerequisites
-- Python 3.11 or higher
+
+- Python 3.12 or higher
 - OpenAI API key
 
 ### Installation
@@ -90,6 +101,18 @@ OPENAI_API_KEY=your_openai_api_key_here
 
 ## 🧪 Development
 
+### CI/CD Pipeline
+
+This project includes a comprehensive CI/CD pipeline that runs on every push and pull request:
+
+- **Code Quality**: Automated linting, formatting, and type checking
+- **Testing**: Full test suite with coverage reporting
+- **Security**: Automated security scanning with Bandit and Safety
+- **Build**: Package building and distribution validation
+- **Docker**: Container build verification
+
+All checks must pass before code can be merged, ensuring high code quality and reliability.
+
 ### Running Tests
 ```bash
 # Activate virtual environment
@@ -103,6 +126,7 @@ pytest --cov-report=html
 ```
 
 ### Code Quality
+
 ```bash
 # Install pre-commit hooks
 pre-commit install
@@ -110,11 +134,14 @@ pre-commit install
 # Run code formatting
 black src/ tests/
 
-# Run linting
-ruff check src/ tests/
+# Run linting and auto-fixes
+ruff check --fix src/ tests/
 
 # Run type checking
 mypy src/
+
+# Run all pre-commit checks
+pre-commit run --all-files
 ```
 
 ### Development Installation
@@ -132,7 +159,7 @@ When you run RepoSpector AI on a repository, you'll get a comprehensive markdown
 
 ## 🏗️ Project Structure
 
-```
+```text
 repospector-ai/
 ├── app.py                       # Streamlit web application
 ├── src/repospector_ai/          # Main source code
@@ -145,11 +172,16 @@ repospector-ai/
 │   └── tools/                   # Custom tools
 │       └── repo_analysis_tool.py # Repository analysis
 ├── tests/                       # Unit tests
+│   ├── test_config.py           # Configuration tests
+│   ├── test_logger.py           # Logging tests
+│   └── test_init.py             # Package tests
 ├── docs/                        # Documentation
+├── .github/workflows/           # CI/CD pipeline
 ├── .env.example                 # Environment template
 ├── .gitignore                   # Git ignore rules
 ├── .pre-commit-config.yaml      # Code quality hooks
 ├── Dockerfile                   # Container configuration
+├── pyproject.toml               # Modern Python configuration
 ├── requirements.txt             # Core dependencies
 ├── requirements-dev.txt         # Development dependencies
 └── setup.py                     # Package configuration

@@ -5,8 +5,6 @@ This module defines the expert AI agents responsible for comprehensive
 GitHub repository analysis and review.
 """
 
-from typing import List
-
 from crewai import Agent
 from langchain_community.utilities import SerpAPIWrapper
 from langchain_openai import ChatOpenAI
@@ -30,15 +28,15 @@ def _create_llm() -> ChatOpenAI:
 def create_repo_analyst() -> Agent:
     """
     Create the Repository Analyst agent.
-    
+
     This agent specializes in analyzing repository structure, identifying
     missing components, and evaluating adherence to professional standards.
-    
+
     Returns:
         Configured RepoAnalyst agent
     """
     logger.info("Creating RepoAnalyst agent")
-    
+
     return Agent(
         role="Senior Software Engineer specializing in code repository structure",
         goal=(
@@ -65,15 +63,15 @@ def create_repo_analyst() -> Agent:
 def create_documentation_specialist() -> Agent:
     """
     Create the Documentation Specialist agent.
-    
+
     This agent focuses on evaluating README files, documentation quality,
     and overall project presentation.
-    
+
     Returns:
         Configured DocumentationSpecialist agent
     """
     logger.info("Creating DocumentationSpecialist agent")
-    
+
     # Configure SerpAPI if available
     tools = []
     if settings.serpapi_api_key:
@@ -83,7 +81,7 @@ def create_documentation_specialist() -> Agent:
             logger.info("SerpAPI tool configured for DocumentationSpecialist")
         except Exception as e:
             logger.warning(f"Failed to configure SerpAPI: {e}")
-    
+
     return Agent(
         role="Technical Writer and Documentation Expert",
         goal=(
@@ -112,15 +110,15 @@ def create_documentation_specialist() -> Agent:
 def create_chief_reviewer() -> Agent:
     """
     Create the Chief Reviewer agent.
-    
+
     This agent synthesizes findings from other agents and creates the final
     comprehensive report with prioritized recommendations.
-    
+
     Returns:
         Configured ChiefReviewer agent
     """
     logger.info("Creating ChiefReviewer agent")
-    
+
     return Agent(
         role="Principal AI Engineer and Project Lead",
         goal=(
@@ -147,10 +145,10 @@ def create_chief_reviewer() -> Agent:
     )
 
 
-def get_all_agents() -> List[Agent]:
+def get_all_agents() -> list[Agent]:
     """
     Get all configured agents for the repository analysis crew.
-    
+
     Returns:
         List of all agents in the correct order for workflow
     """
@@ -159,6 +157,6 @@ def get_all_agents() -> List[Agent]:
         create_documentation_specialist(),
         create_chief_reviewer(),
     ]
-    
+
     logger.info(f"Created {len(agents)} agents for repository analysis")
     return agents
