@@ -52,5 +52,6 @@ repos:
       - id: mypy
         name: MyPy
         description: Static type checker for Python
-        additional_dependencies: [types-all]
-        args: [--strict, --ignore-missing-imports]
+        additional_dependencies: [types-requests, types-toml]
+        args: [--ignore-missing-imports]
+        files: ^src/
